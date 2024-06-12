@@ -2,6 +2,8 @@
 import { Link, useNavigate} from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ConnectButton, useConnection } from "@arweave-wallet-kit/react";
+
 
 
 interface IconProps {
@@ -9,32 +11,16 @@ interface IconProps {
 }
 
 export function Homepage() {
-  const navigate = useNavigate();
+  
+  const { connected ,connect } = useConnection();
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="bg-gray-950 text-white py-4 px-6 md:px-8 lg:px-12 flex items-center justify-between">
-        <Link className="flex items-center gap-2 text-lg font-semibold" to="#">
-          <FeatherIcon className="h-6 w-6" />
-          <span>Dev dairy</span>
-        </Link>
-        <nav className="hidden md:flex items-center gap-6">
-          <Link className="hover:underline underline-offset-4" to="#">
-            Blog
-          </Link>
-          <Link className="hover:underline underline-offset-4" to="#">
-            Write
-          </Link>
-          <Button onClick={() => navigate('/writeblog')}>
-            <PlusIcon className="h-4 w-4 mr-2" />
-            New Post
-          </Button>
-        </nav>
-        <Button className="md:hidden" size="icon" variant="ghost">
-          <MenuIcon className="h-6 w-6" />
-          <span className="sr-only">Toggle menu</span>
-        </Button>
-      </header>
-      <main className="flex-1 py-12 px-4 md:px-8 lg:px-12">
+    
+      
+    <div>
+    
+        
+      <main className="flex-1 py-12 px-4 md:px-8 lg:px-12 mt-8 pt-16" >
         <div className="max-w-3xl mx-auto">
           <div className="mb-12">
             <h1 className="text-4xl font-bold mb-4">Welcome to Vercel Blog</h1>
@@ -149,7 +135,7 @@ export function Homepage() {
         </div>
       </main>
       <footer className="bg-gray-950 text-white py-6 px-4 md:px-8 lg:px-12 flex items-center justify-between">
-        <p className="text-sm">© 2024 Vercel Blog. All rights reserved.</p>
+        <p className="text-sm">© 2024 AO Blog. All rights reserved.</p>
         <nav className="flex items-center gap-4">
           <Link className="hover:underline underline-offset-4" to="#">
             Terms of Service

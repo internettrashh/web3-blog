@@ -2,10 +2,17 @@ import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
+import { ConnectButton, useConnection } from "@arweave-wallet-kit/react";
+import { useNavigate } from "react-router-dom";
+
 
 export function Writeblog() {
+  const navigate = useNavigate();
+  const { connected ,connect, disconnect } = useConnection();
+  
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto mt-8 pt-16
+    ">
       <h1 className="text-4xl font-bold mb-4">Welcome to Vercel Blog</h1>
       <p className="text-gray-600 mb-8">Discover the latest news, insights, and updates from the Vercel team.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -72,6 +79,13 @@ export function Writeblog() {
               }}
               width={400}
             />
+            <div className="absolute top-4 right-4">
+              <Button size="sm"  onClick={ () =>
+                connected ? disconnect() : console.log('disconnected')
+              }>
+                logout
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="p-4">
             <h2 className="text-xl font-bold mb-2">Deploying to Vercel: A Step-by-Step Guide</h2>
