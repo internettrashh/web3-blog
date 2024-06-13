@@ -3,6 +3,12 @@ import { Link, useNavigate} from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ConnectButton, useConnection } from "@arweave-wallet-kit/react";
+import { useState , useEffect} from "react";
+import { connect, createDataItemSigner } from "@permaweb/aoconnect";
+import { dryrun } from "@permaweb/aoconnect";
+
+
+
 
 
 
@@ -13,6 +19,42 @@ interface IconProps {
 export function Homepage() {
   
   const { connected ,connect } = useConnection();
+  //const processId ='53BwioJZRXB3FQrSPMqjjwzTAcAYCD_gOI-pzNL5Uwo'
+  const processId = "53BwioJZRXB3FQrSPMqjjwzTAcAYCD_gOI-pzNL5Uwo";
+
+  const [isFetching, setIsFetching] = useState(false);
+  
+
+  const [postList, setPostList] = useState(); 
+  const fetchPosts = async () => {
+    if (!connected) {
+      return;
+    }
+    try {
+      const addr = await window.arweaveWallet.getActiveAddress();
+      const result = await dryrun({
+        process: processId,
+        data: "",
+        tags: [{ name: "Action", value: "List" }],
+        anchor: "1234",
+      });
+      console.log("Dry run result", result);
+      const filteredResult = result.Messages.map((message) => {
+        const parsedData = JSON.parse(message.Data);
+        return parsedData;
+      });
+      console.log("Filtered result", filteredResult);
+      setPostList(filteredResult[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setIsFetching(true);
+    fetchPosts();
+    setIsFetching(false);
+  }, [connected]);
 
   return (
     
@@ -29,7 +71,11 @@ export function Homepage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {isFetching && <div>Fetching posts...</div>}
+
             <Card>
+            {postList &&
+            postList.map((post, index) => (
               <Link to="#">
                 <img
                   alt="Blog Post 1"
@@ -43,98 +89,24 @@ export function Homepage() {
                   width={500}
                 />
                 <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-2">Mastering Next.js: A Comprehensive Guide</h2>
+                  <h2 className="text-2xl font-bold mb-2">{post.Title}</h2>
                   <p className="text-gray-500 dark:text-gray-400 mb-4">
                     Dive into the world of Next.js and learn how to build lightning-fast, SEO-friendly React
                     applications.
                   </p>
                   <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                     <CalendarDaysIcon className="h-4 w-4 mr-2" />
-                    <span>May 1, 2023</span>
+                    <span>{post.Author}</span>
                   </div>
                 </div>
               </Link>
+               ))}
             </Card>
-            <Card>
-              <Link to="#">
-                <img
-                  alt="Blog Post 2"
-                  className="rounded-t-lg object-cover w-full h-48"
-                  height={300}
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "500/300",
-                    objectFit: "cover",
-                  }}
-                  width={500}
-                />
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-2">Designing for Accessibility: Best Practices</h2>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    Learn how to create inclusive and accessible web experiences that cater to users of all abilities.
-                  </p>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarDaysIcon className="h-4 w-4 mr-2" />
-                    <span>April 15, 2023</span>
-                  </div>
-                </div>
-              </Link>
-            </Card>
-            <Card>
-              <Link to="#">
-                <img
-                  alt="Blog Post 3"
-                  className="rounded-t-lg object-cover w-full h-48"
-                  height={300}
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "500/300",
-                    objectFit: "cover",
-                  }}
-                  width={500}
-                />
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-2">Optimizing Web Performance: Strategies and Tools</h2>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    Discover effective techniques to improve the speed and responsiveness of your web applications.
-                  </p>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarDaysIcon className="h-4 w-4 mr-2" />
-                    <span>March 28, 2023</span>
-                  </div>
-                </div>
-              </Link>
-            </Card>
-            <Card>
-              <Link to="#">
-                <img
-                  alt="Blog Post 4"
-                  className="rounded-t-lg object-cover w-full h-48"
-                  height={300}
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "500/300",
-                    objectFit: "cover",
-                  }}
-                  width={500}
-                />
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-2">Embracing the Jamstack: Building Modern Web Apps</h2>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    Explore the benefits of the Jamstack architecture and how it can transform your web development
-                    workflow.
-                  </p>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarDaysIcon className="h-4 w-4 mr-2" />
-                    <span>February 10, 2023</span>
-                  </div>
-                </div>
-              </Link>
-            </Card>
+            
           </div>
         </div>
       </main>
-      <footer className="bg-gray-950 text-white py-6 px-4 md:px-8 lg:px-12 flex items-center justify-between">
+      <footer className="bg-gray-950 text-white py-11 px-4 md:px-8 lg:px-12 flex items-center justify-between">
         <p className="text-sm">© 2024 AO Blog. All rights reserved.</p>
         <nav className="flex items-center gap-4">
           <Link className="hover:underline underline-offset-4" to="#">

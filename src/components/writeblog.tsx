@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from 'react-quill';
-import { createDataItemSigner, message, result } from "@permaweb/aoconnect";
+import { createDataItemSigner, message, dryrun, result, connect } from "@permaweb/aoconnect";
 import 'react-quill/dist/quill.snow.css'; // Import the theme you want to use
-import { ConnectButton, useConnection } from "@arweave-wallet-kit/react";
+import { useActiveAddress, ConnectButton, useConnection } from "@arweave-wallet-kit/react";
 
 declare global {
   interface Window {
@@ -18,14 +18,19 @@ declare global {
     };
   }
 }
+
 export function Writeblog() {
   const navigate = useNavigate();
   const [text, setText] = React.useState('');
   const [title, setTitle] = useState("");
   const [isPosting, setIsPosting] = useState(false);
 
-  const { connected ,connect } = useConnection();
-   const processId ='53BwioJZRXB3FQrSPMqjjwzTAcAYCD_gOI-pzNL5Uwo' 
+  const { connected  } = useConnection();
+  const ao = connect();
+   const processId ="53BwioJZRXB3FQrSPMqjjwzTAcAYCD_gOI-pzNL5Uwo" 
+  
+
+  
    const createPost = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -37,15 +42,16 @@ export function Writeblog() {
     setIsPosting(true);
 
     try {
-      const res = await message({
+      const res = await ao.message({
         process: processId,
         tags: [
           { name: "Action", value: "Create-Post" },
-          { name: "Content-Type", value: "text/html" },
+          //{ name: "Content-Type", value: "text/html" },
           { name: "Title", value: title },
         ],
         data: text,
         signer: createDataItemSigner(window.arweaveWallet),
+
       });
       console.log("Post result", res);
 
@@ -60,6 +66,34 @@ export function Writeblog() {
       console.log(error);
     }
     setIsPosting(false);
+  };
+  const handleButtonClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const register = async () => {
+      try {
+        const res = await ao.message({
+          process: processId,
+          tags: [{ name: "Action", value: "Register" }],
+          data: "",
+          signer: createDataItemSigner(window.arweaveWallet),
+        });
+        console.log("Register result", res);
+        const registerResult = await result({
+          process: processId,
+          message: res,
+        });
+        console.log("Registered successfully", registerResult);
+      } catch (error) {
+        console.log(error);
+      }
+      // Call createPost after register completes
+      await createPost(e);
+    };
+
+    // Call register, which will then call createPost
+    await register();
   };
   
   
@@ -86,7 +120,7 @@ export function Writeblog() {
           <Button className='self-end mt-16 w-full'
           type="submit"
           disabled={isPosting || (title == "" && text == "")}
-          onClick={(e) => createPost(e)}>
+          onClick={handleButtonClick}>
             Post
           </Button>
           </form>
