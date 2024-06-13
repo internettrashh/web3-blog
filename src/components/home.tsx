@@ -39,13 +39,13 @@ export function Home() {
             <div className="flex gap-4">
               <Link
                 className="inline-flex items-center justify-center rounded-md bg-white text-gray-950 px-6 py-3 text-lg font-medium shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-950"
-                to="#"
+                to="view"
               >
                 Read Blog
               </Link>
               <Link
                 className="inline-flex items-center justify-center rounded-md bg-transparent border border-white text-white px-6 py-3 text-lg font-medium hover:bg-white hover:text-gray-950 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-950"
-                to="#"
+                to="/writeblog"
               >
                 Write a Post
               </Link>

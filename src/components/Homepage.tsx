@@ -23,7 +23,7 @@ export function Homepage() {
       <main className="flex-1 py-12 px-4 md:px-8 lg:px-12 mt-8 pt-16" >
         <div className="max-w-3xl mx-auto">
           <div className="mb-12">
-            <h1 className="text-4xl font-bold mb-4">Welcome to Vercel Blog</h1>
+            <h1 className="text-4xl font-bold mb-4">Welcome to AO Blog</h1>
             <p className="text-gray-500 dark:text-gray-400 text-lg">
               Discover the latest insights and trends in web development, design, and more.
             </p>
