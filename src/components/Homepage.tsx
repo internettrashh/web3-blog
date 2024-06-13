@@ -58,11 +58,8 @@ export function Homepage() {
 
   return (
     
-      
     <div>
-    
-        
-      <main className="flex-1 py-12 px-4 md:px-8 lg:px-12 mt-8 pt-16" >
+      <main className="flex-1 py-12 px-4 md:px-8 lg:px-12 mt-8 pt-16">
         <div className="max-w-3xl mx-auto">
           <div className="mb-12">
             <h1 className="text-4xl font-bold mb-4">Welcome to AO Blog</h1>
@@ -70,41 +67,40 @@ export function Homepage() {
               Discover the latest insights and trends in web development, design, and more.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {isFetching && <div>Fetching posts...</div>}
-
-            <Card>
-            {postList &&
-            postList.map((post, index) => (
-              <Link to="#">
-                <img
-                  alt="Blog Post 1"
-                  className="rounded-t-lg object-cover w-full h-48"
-                  height={300}
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "500/300",
-                    objectFit: "cover",
-                  }}
-                  width={500}
-                />
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold mb-2">{post.Title}</h2>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    Dive into the world of Next.js and learn how to build lightning-fast, SEO-friendly React
-                    applications.
-                  </p>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <CalendarDaysIcon className="h-4 w-4 mr-2" />
-                    <span>{post.Author}</span>
-                  </div>
-                </div>
-              </Link>
-               ))}
+         
+            {isFetching && <div>Fetching posts...</div>}
+     
+            <Card >
+              {postList &&
+                postList.map((post, index) => (
+                  <Link to="#" key={index}>
+  {/* Added key prop for list */}
+  {/* Dynamic alt text */}
+  <img
+    alt={`Blog Post ${index + 1}`}
+    className="rounded-t-lg object-cover w-full h-48"
+    src="/placeholder.svg"
+    style={{
+      aspectRatio: "500/300",
+      objectFit: "cover",
+    }}
+  />
+  <div className="p-6">
+    <h2 className="text-2xl font-bold mb-2">{post.Title}</h2>
+    <p className="text-gray-500 dark:text-gray-400 mb-4">
+      Dive into the world of Next.js and learn how to build lightning-fast, SEO-friendly React applications.
+    </p>
+    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+      <CalendarDaysIcon className="h-4 w-4 mr-2" />
+      <span>{post.Author}</span>
+    </div>
+  </div>
+</Link>
+                ))}
             </Card>
             
           </div>
-        </div>
+       
       </main>
       <footer className="bg-gray-950 text-white py-11 px-4 md:px-8 lg:px-12 flex items-center justify-between">
         <p className="text-sm">© 2024 AO Blog. All rights reserved.</p>
@@ -122,7 +118,7 @@ export function Homepage() {
       </footer>
     </div>
   );
-}
+};
 
 function CalendarDaysIcon(props: IconProps) {
   return (
