@@ -104,27 +104,29 @@ export function Writeblog() {
         <h1 className="text-4xl font-bold mb-4">Share your thoughts</h1>
         <p className="text-gray-600 mb-8">share your thoughts on the perma web.</p>
         <div className="flex flex-col items-center">
-          <div style={{ height: '500px', width: '100%' }}>
-          <form>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-            style={{ backgroundColor: '#f3f3f3', color: '#333', height: '50px', width: '100%' }}
-             />
+        <div style={{ height: '500px', width: '100%' }}>
+  <form>
+    <div style={{ height: '5rem', width: '100%', padding: '0.5rem', border: '1px solid #ccc', marginBottom: '0.5rem' }}>
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
+        style={{ width: '100%', padding: '0.5rem',marginTop:'0.5rem', marginBottom: '1rem', border: '1px solid #ccc', backgroundColor:'black' }}
+      />
+    </div>
 
-            <ReactQuill theme="snow" value={text} onChange={setText} style={{ height: '30rem', width: '100%' }} />
-            {isPosting && <div>Posting...</div>}
-           
-          <Button className='self-end mt-16 w-full'
-          type="submit"
-          disabled={isPosting || (title == "" && text == "")}
-          onClick={handleButtonClick}>
-            Post
-          </Button>
-          </form>
-        </div>
+    <ReactQuill theme="snow" value={text} onChange={setText} style={{ height: '30rem', width: '100%' }} />
+    {isPosting && <div>Posting...</div>}
+
+    <Button className='self-end mt-16 w-full'
+    type="submit"
+    disabled={isPosting || (title == "" && text == "")}
+    onClick={handleButtonClick}>
+      Post
+    </Button>
+  </form>
+</div>
       </div>
     </div>
     ) : 
