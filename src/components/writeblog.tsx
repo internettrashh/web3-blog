@@ -46,7 +46,7 @@ export function Writeblog() {
         process: processId,
         tags: [
           { name: "Action", value: "Create-Post" },
-          //{ name: "Content-Type", value: "text/html" },
+          { name: "Content-Type", value: "text/html" },
           { name: "Title", value: title },
         ],
         data: text,
@@ -111,10 +111,10 @@ export function Writeblog() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
-            style={{ height: '50px', width: '100%' }}
+            style={{ backgroundColor: '#f3f3f3', color: '#333', height: '50px', width: '100%' }}
              />
 
-            <ReactQuill theme="snow" value={text} onChange={setText} style={{ height: '100%', width: '100%' }} />
+            <ReactQuill theme="snow" value={text} onChange={setText} style={{ height: '30rem', width: '100%' }} />
             {isPosting && <div>Posting...</div>}
            
           <Button className='self-end mt-16 w-full'

@@ -64,7 +64,7 @@ export function Homepage() {
           <div className="mb-12">
             <h1 className="text-4xl font-bold mb-4">Welcome to AO Blog</h1>
             <p className="text-gray-500 dark:text-gray-400 text-lg">
-              Discover the latest insights and trends in web development, design, and more.
+              Discover the latest insights and trends in web development, design, and more anonimously.
             </p>
           </div>
          
@@ -88,7 +88,7 @@ export function Homepage() {
   <div className="p-6">
     <h2 className="text-2xl font-bold mb-2">{post.Title}</h2>
     <p className="text-gray-500 dark:text-gray-400 mb-4">
-      Dive into the world of Next.js and learn how to build lightning-fast, SEO-friendly React applications.
+     {post.Data}
     </p>
     <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
       <CalendarDaysIcon className="h-4 w-4 mr-2" />
